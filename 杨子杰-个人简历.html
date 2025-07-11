@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>杨子杰 - 个人简历</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f7ff, #e6f0fa);
+            color: #1e2a38;
+            line-height: 1.6;
+            padding: 30px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .resume-container {
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .page {
+            padding: 40px;
+            position: relative;
+            min-height: 1120px; /* A4高度 */
+        }
+        
+        .page-break {
+            border-top: 2px dashed #2b6cb0;
+            margin: 30px 0;
+            padding-top: 30px;
+        }
+        
+        .header-bar {
+            background: linear-gradient(135deg, #1a3a5f, #2c5282);
+            height: 8px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            padding: 35px 40px 25px;
+            background: white;
+            border-bottom: 1px solid #eaeff5;
+            position: relative;
+        }
+        
+        .name-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .name {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #1a365d;
+        }
+        
+        .title {
+            font-size: 21px;
+            color: #2b6cb0;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: 30px;
+            background: #ebf4ff;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4a5568;
+            font-size: 15px;
+        }
+        
+        .contact-item i {
+            color: #2b6cb0;
+            width: 24px;
+            text-align: center;
+        }
+        
+        /* 导出按钮 */
+        .export-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: #2b6cb0;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(43, 108, 176, 0.25);
+            z-index: 10;
+        }
+        
+        .export-btn:hover {
+            background: #1a3a5f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(43, 108, 176, 0.35);
+        }
+        
+        /* 主体内容样式 */
+        .content {
+            padding: 30px 40px 40px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+        }
+        
+        .left-column {
+            grid-column: 1;
+        }
+        
+        .right-column {
+            grid-column: 2;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+        }
+        
+        .section-title {
+            color: #1a365d;
+            font-size: 21px;
+            font-weight: 700;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #2b6cb0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-title i {
+            background: #ebf4ff;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2b6cb0;
+        }
+        
+        /* 教育背景 */
+        .education-item {
+            margin-bottom: 25px;
+        }
+        
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .institution {
+            font-weight: 700;
+            font-size: 18px;
+            color: #1a3a5f;
+        }
+        
+        .date {
+            color: #4a5568;
+            font-weight: 500;
+            background: #f0f4f8;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .details {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+        
+        .detail-item {
+            margin-bottom: 8px;
+            position: relative;
+            line-height: 1.5;
+            font-size: 15px;
+        }
+        
+        .detail-item:before {
+            content: "•";
+            position: absolute;
+            left: -20px;
+            color: #2b6cb0;
+            font-weight: bold;
+        }
+        
+        .highlight {
+            font-weight: 600;
+            color: #1a3a5f;
+        }
+        
+        /* 项目经验 */
+        .project {
+            margin-bottom: 35px;
+            border-left: 3px solid #ebf4ff;
+            padding-left: 20px;
+            padding-bottom: 5px;
+            position: relative;
+        }
+        
+        .project:before {
+            content: "";
+            position: absolute;
+            left: -7px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: #2b6cb0;
+            border-radius: 50%;
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .project-title {
+            font-weight: 700;
+            font-size: 18px;
+            color: #1a3a5f;
+            width: 70%;
+        }
+        
+        .project-role {
+            font-style: italic;
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-weight: 500;
+            text-align: right;
+            width: 30%;
+        }
+        
+        .project-overview {
+            margin-bottom: 15px;
+            padding-right: 15px;
+            color: #4a5568;
+            font-size: 15px;
+        }
+        
+        .project-responsibilities {
+            margin-bottom: 15px;
+        }
+        
+        .responsibilities-title {
+            font-weight: 600;
+            color: #1a3a5f;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+        
+        .responsibilities-title i {
+            color: #2b6cb0;
+        }
+        
+        .responsibilities-list {
+            padding-left: 30px;
+        }
+        
+        .responsibilities-list li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+            font-size: 15px;
+        }
+        
+        .project-results {
+            background: #f8fbfe;
+            border-radius: 8px;
+            padding: 18px;
+            border-left: 3px solid #2b6cb0;
+        }
+        
+        .results-title {
+            font-weight: 600;
+            color: #1a3a5f;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+        
+        .results-title i {
+            color: #2b6cb0;
+        }
+        
+        .results-list {
+            padding-left: 30px;
+        }
+        
+        .results-list li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+            font-size: 15px;
+        }
+        
+        /* 专业技能 */
+        .skills-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .skill-category {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .skill-category-title {
+            font-weight: 700;
+            color: #2c5282;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ebf4ff;
+        }
+        
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .skill-item {
+            background: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        /* 证书部分 */
+        .certificates {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .cert-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .cert-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #1a3a5f;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ebf4ff;
+        }
+        
+        .cert-list {
+            list-style-type: none;
+        }
+        
+        .cert-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+        }
+        
+        .cert-list li:last-child {
+            border-bottom: none;
+        }
+        
+        /* 自我评价 */
+        .self-eval {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .eval-category {
+            margin-bottom: 25px;
+        }
+        
+        .eval-title {
+            font-weight: 700;
+            color: #2c5282;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .eval-content {
+            padding-left: 30px;
+        }
+        
+        .eval-content p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        
+        .eval-content ul {
+            padding-left: 25px;
+            margin-top: 10px;
+        }
+        
+        .eval-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+            font-size: 15px;
+        }
+        
+        /* 页脚 */
+        .footer {
+            background: #1a3a5f;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 900px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .right-column {
+                grid-column: 1;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 25px 20px 20px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .name-title {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .project-title, .project-role {
+                width: 100%;
+                text-align: left;
+            }
+            
+            .export-btn {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-top: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container" id="resume">
+        <div class="header-bar"></div>
+        
+        <!-- 头部信息 -->
+        <div class="header">
+            <div class="name-title">
+                <div class="name">杨子杰</div>
+                <div class="title">电气工程师及相关岗位</div>
+            </div>
+            
+            <button class="export-btn" id="exportBtn">
+                <i class="fas fa-file-pdf"></i> 导出为PDF
+            </button>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>广东佛山</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>2003年11月</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+86 19186568047</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>aikzx@qq.com</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 主体内容 -->
+        <div class="content">
+            <div class="left-column">
+                <!-- 教育背景 -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-graduation-cap"></i>教育背景</h2>
+                    
+                    <div class="education-item">
+                        <div class="education-header">
+                            <div class="institution">中山火炬职业技术学院</div>
+                            <div class="date">2022/09 - 2025/06</div>
+                        </div>
+                        <div class="major">电气自动化技术</div>
+                        
+                        <div class="details">
+                            <div class="detail-item"><span class="highlight">学业成就：</span>GPA: 4.42/5、成绩排名<span class="highlight">学院第一</span></div>
+                            <div class="detail-item"><span class="highlight">荣誉奖项：</span>教育部<span class="highlight">国家奖学金</span>、团队省赛：工业网络智能控制三等、个人国赛：<span class="highlight">工业数字智能</span></div>
+                            <div class="detail-item">连续一/二等奖学金、二等素拓奖学金、国家数学建模及数学竞赛二/三等奖</div>
+                            <div class="detail-item"><span class="highlight">实践经历：</span>校学生代表、项目培训员、优秀学生骨干、优秀毕业生、学委、班长、校学生部长、红十字成员</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目经验 -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-project-diagram"></i>项目经验</h2>
+                    
+                    <!-- HSBC 项目 -->
+                    <div class="project">
+                        <div class="project-header">
+                            <div class="project-title">HSBC Global 数据处理</div>
+                            <div class="project-role">数据实习生</div>
+                        </div>
+                        <div class="date">2025/04 - 2025/07</div>
+                        
+                        <div class="project-overview">
+                            <p><span class="highlight">项目概述：</span>主要负责HSBC-HK与HASE数据仪表板维护与分析、数据资料处理及录入，多任务系统并行处理</p>
+                        </div>
+                        
+                        <div class="project-responsibilities">
+                            <h3 class="responsibilities-title"><i class="fas fa-tasks"></i> 项目职责</h3>
+                            <ul class="responsibilities-list">
+                                <li><strong>数据分析与高效录入：</strong>对业务数据进行初步分析，并完成多系统并行数据录入任务；应用逻辑驱动思维，确保数据准确无误</li>
+                                <li><strong>系统日志协作与安全实践：</strong>IBM i系统操作日志全链路协作，实践数据安全架构，流程严谨遵守SOP</li>
+                                <li><strong>自动化工具链应用：</strong>使用AutoHotkey宏指令集完成Excel数据转换；建立个人规则树模型，快速识别数据异常点</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="project-results">
+                            <h3 class="results-title"><i class="fas fa-trophy"></i> 项目成果</h3>
+                            <ul class="results-list">
+                                <li>因表现优异获HSBC<span class="highlight">正编offer</span></li>
+                                <li>日均处理数据条目500+条，准确率97%</li>
+                                <li>极致的流程素养、大型协作网络强化了自身逻辑思维</li>
+                                <li>通过个人IT能力快速完成了能力迁移，在工作中提升了效率并分享方法论于同事提升</li>
+                                <li>基于精准的能力补位策略为冲击工业顶尖岗位做战略准备</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- 越疆视觉系统项目 -->
+                    <div class="project">
+                        <div class="project-header">
+                            <div class="project-title">越疆视觉系统培训项目</div>
+                            <div class="project-role">培训负责人</div>
+                        </div>
+                        <div class="date">2024/09 - 2024/10</div>
+                        
+                        <div class="project-overview">
+                            <p><span class="highlight">项目概述：</span>主导面向30余名学员的越疆工业视觉系统综合培训项目。在缺乏现成培训体系的情况下，独立完成从系统学习、方案设计到完成培训的全过程，内容涵盖Portal组态编程、MVS相机配置、视觉方案设计及Robot程序等核心模块</p>
+                        </div>
+                        
+                        <div class="project-responsibilities">
+                            <h3 class="responsibilities-title"><i class="fas fa-tasks"></i> 项目职责</h3>
+                            <ul class="responsibilities-list">
+                                <li><strong>控制系统集成：</strong>完成Portal组态编程，优化PLC控制逻辑，设计HMI界面，实现与Robot的通信和协同动作</li>
+                                <li><strong>硬件调试与保障：</strong>调试传感器信号，检测线路，确保设备硬件可靠运行</li>
+                                <li><strong>视觉系统集成：</strong>配置MVS相机系统参数，设计视觉识别方案，实现与PLC和Robot的实时数据交互</li>
+                                <li><strong>Robot程序：</strong>编写Robot程序，确定运动轨迹，完成动作示教</li>
+                                <li><strong>培训与归档：</strong>系统整理并归档技术文档，对学员进行理论讲解与实操培训，组织并实施视觉系统操作认证考核</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="project-results">
+                            <h3 class="results-title"><i class="fas fa-trophy"></i> 项目成果</h3>
+                            <ul class="results-list">
+                                <li>成功完成越疆视觉系统总体方案设计，完善设备功能</li>
+                                <li>通过高效的文件处理，为后续学习优化提供了便利</li>
+                                <li>项目帮助30余名学员顺利通过视觉系统考证，通过率高达<span class="highlight">100%</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- YL-335B 项目 -->
+                    <div class="project">
+                        <div class="project-header">
+                            <div class="project-title">YL-335B 生产线数字化总体方案设计</div>
+                            <div class="project-role">PLC工程师</div>
+                        </div>
+                        <div class="date">2024/08 - 2024/09</div>
+                        
+                        <div class="project-overview">
+                            <p><span class="highlight">项目概述：</span>本项目针对年久失修的YL-335B生产线进行数字化改造，旨在提升其生产效率与智能化水平。主导PLC程序的优化与MCD虚拟建模，确保系统稳定运行并实现远程联动同步运动，以适应现代化生产需求</p>
+                        </div>
+                        
+                        <div class="project-responsibilities">
+                            <h3 class="responsibilities-title"><i class="fas fa-tasks"></i> 项目职责</h3>
+                            <ul class="responsibilities-list">
+                                <li><strong>控制系统优化：</strong>分析并优化原有 PLC 控制程序，提升生产节拍，确保系统高效运行</li>
+                                <li><strong>硬件状态评估：</strong>全面检测设备硬件与线路，确保各器件功能完好，为数字化改造提供可靠的物理基础</li>
+                                <li><strong>虚拟调试与联动：</strong>在NX MCD中完成设备运动学建模与配置，实现虚拟与现实的全栈远程联动同步运动</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="project-results">
+                            <h3 class="results-title"><i class="fas fa-trophy"></i> 项目成果</h3>
+                            <ul class="results-list">
+                                <li>项目成功完成了YL-335B生产线的数字化总体方案设计</li>
+                                <li>通过PLC程序的优化与MCD虚拟建模，实现了生产线的智能化升级</li>
+                                <li>显著提升了产线的智能化程度与可维护性</li>
+                                <li>整理输出标准化、模块化的程序代码块及详尽的技术文档</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- 工业4.0项目 -->
+                    <div class="project">
+                        <div class="project-header">
+                            <div class="project-title">工业4.0下类DCS生产线全栈虚拟与现实远程联动</div>
+                            <div class="project-role">自动化工程师</div>
+                        </div>
+                        <div class="date">2023/06 - 2024/01</div>
+                        
+                        <div class="project-overview">
+                            <p><span class="highlight">项目概述：</span>项目旨在实现柔性化生产及数字化改造，解决原有通信架构混乱及操作人员不足的问题，全面优化提升生产效率</p>
+                        </div>
+                        
+                        <div class="project-responsibilities">
+                            <h3 class="responsibilities-title"><i class="fas fa-tasks"></i> 项目职责</h3>
+                            <ul class="responsibilities-list">
+                                <li><strong>通信架构设计：</strong>设计高效稳定的通讯程序(如 OPC UA, Profinet)，保障PLC、MES、SCADA 及设备间数据可靠交互</li>
+                                <li><strong>MES 系统组态：</strong>负责MES任务派发，实现生产流程可视化与自动化控制</li>
+                                <li><strong>工业网络部署：</strong>配置工业网络(3层交换机、AP、RS485-wifi)，制定防火墙策略，确保网络稳定安全</li>
+                                <li><strong>PLC 编程与流程优化：</strong>利用Portal编程，实现生产流程的灵活配置与快速切换</li>
+                                <li><strong>系统维护：</strong>诊断并排除硬件设备故障；主导 PLC 程序及 MCD 虚拟模型的标准化重构与优化</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="project-results">
+                            <h3 class="results-title"><i class="fas fa-trophy"></i> 项目成果</h3>
+                            <ul class="results-list">
+                                <li>项目成功提升生产节拍<span class="highlight">30%</span></li>
+                                <li>实现数据实时交互与监控</li>
+                                <li>通过虚拟建模优化运动配置，确保数据追溯可靠性</li>
+                                <li>个人在工业网络、数字化系统集成及标准化编程方面的能力获得显著提升</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-column">
+                <!-- 专业技能 -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-laptop-code"></i>专业技能</h2>
+                    
+                    <div class="skills-container">
+                        <div class="skill-category">
+                            <h3 class="skill-category-title"><i class="fas fa-cogs"></i> 核心能力</h3>
+                            <div class="skills-list">
+                                <div class="skill-item">自动化工具链应用精通</div>
+                                <div class="skill-item">逻辑驱动数据校验</div>
+                                <div class="skill-item">数据驱动决策支持</div>
+                                <div class="skill-item">FMEA分析</div>
+                                <div class="skill-item">协同效能横向赋能</div>
+                                <div class="skill-item">复杂问题拆解</div>
+                                <div class="skill-item">个人学习能力迁移</div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3 class="skill-category-title"><i class="fas fa-microchip"></i> 工业控制</h3>
+                            <div class="skills-list">
+                                <div class="skill-item">Siemens PLC编程与设计</div>
+                                <div class="skill-item">Mitsubishi PLC编程与设计</div>
+                                <div class="skill-item">Codesys PLC编程与设计</div>
+                                <div class="skill-item">工业网络配置</div>
+                                <div class="skill-item">工业网络架构精通</div>
+                                <div class="skill-item">通信协议掌握</div>
+                                <div class="skill-item">SCL算法构建</div>
+                                <div class="skill-item">整体程序架构设计</div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3 class="skill-category-title"><i class="fas fa-eye"></i> 视觉技术</h3>
+                            <div class="skills-list">
+                                <div class="skill-item">Hik Vision视觉方案</div>
+                                <div class="skill-item">Halcon视觉系统</div>
+                                <div class="skill-item">Vison Pro视觉技术</div>
+                                <div class="skill-item">机器视觉方案设计</div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3 class="skill-category-title"><i class="fas fa-digital-tachograph"></i> 数字技术</h3>
+                            <div class="skills-list">
+                                <div class="skill-item">生产线数字化仿真</div>
+                                <div class="skill-item">虚拟调试(MCD)技术</div>
+                                <div class="skill-item">生产线模拟优化</div>
+                                <div class="skill-item">智能控制技术</div>
+                                <div class="skill-item">边缘计算应用</div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3 class="skill-category-title"><i class="fas fa-code"></i> 开发能力</h3>
+                            <div class="skills-list">
+                                <div class="skill-item">C#上位机demo开发</div>
+                                <div class="skill-item">C#视觉demo开发</div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3 class="skill-category-title"><i class="fas fa-tools"></i> 办公技能</h3>
+                            <div class="skills-list">
+                                <div class="skill-item">Office高级应用</div>
+                                <div class="skill-item">WPS专业应用</div>
+                                <div class="skill-item">Visio图表设计</div>
+                                <div class="skill-item">AI调用能力</div>
+                                <div class="skill-item">视频剪辑制作</div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3 class="skill-category-title"><i class="fas fa-language"></i> 语言能力</h3>
+                            <div class="skills-list">
+                                <div class="skill-item">日语N3阅读能力</div>
+                                <div class="skill-item">英语专业文献翻译</div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3 class="skill-category-title"><i class="fas fa-network-wired"></i> 系统架构</h3>
+                            <div class="skills-list">
+                                <div class="skill-item">MES系统架构</div>
+                                <div class="skill-item">IIOT系统架构</div>
+                                <div class="skill-item">SCADA系统架构</div>
+                                <div class="skill-item">Purdue模型</div>
+                                <div class="skill-item">PLC控制系统</div>
+                                <div class="skill-item">DCS控制系统</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 荣誉证书 -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-award"></i>荣誉证书</h2>
+                    
+                    <div class="certificates">
+                        <div class="cert-card">
+                            <h3 class="cert-title">专业认证</h3>
+                            <ul class="cert-list">
+                                <li><i class="fas fa-certificate" style="color: #2b6cb0;"></i> 高级电工工程证书</li>
+                                <li><i class="fas fa-certificate" style="color: #2b6cb0;"></i> 机器视觉系统中级工程证书</li>
+                                <li><i class="fas fa-certificate" style="color: #2b6cb0;"></i> 低压电工证书</li>
+                                <li><i class="fas fa-certificate" style="color: #2b6cb0;"></i> PMI工业4.0技术证书</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="cert-card">
+                            <h3 class="cert-title">技术认证</h3>
+                            <ul class="cert-list">
+                                <li><i class="fas fa-certificate" style="color: #38a169;"></i> Linked&Microsoft数据分析证书</li>
+                                <li><i class="fas fa-certificate" style="color: #38a169;"></i> Siemens Mobility项目管理</li>
+                                <li><i class="fas fa-certificate" style="color: #38a169;"></i> Microsoft ESG与商业未来</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="cert-card">
+                            <h3 class="cert-title">其他证书</h3>
+                            <ul class="cert-list">
+                                <li><i class="fas fa-certificate" style="color: #dd6b20;"></i> 红十字救护员</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 自我评价 -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-user"></i>自我评价</h2>
+                    
+                    <div class="self-eval">
+                        <div class="eval-category">
+                            <h3 class="eval-title"><i class="fas fa-book"></i> 专业背景</h3>
+                            <div class="eval-content">
+                                <p>深耕电气自动化技术，以全栈式工业4.0能力推动IT/OT融合落地。掌握PLC系统架构设计（SCL算法/标准化编程）、工业网络安全部署（PROFINET/VLAN）、机器视觉工程化开发，并通过虚拟调试（MCD）及OPC UA-MES集成实现数据驱动智造。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="eval-category">
+                            <h3 class="eval-title"><i class="fas fa-brain"></i> 综合素质</h3>
+                            <div class="eval-content">
+                                <p>专精复杂工程问题拆解与逻辑思维。凭借技术迁移能力（如金融规则链路→工业安全控制）及极限场景执行力（72H项目攻坚），持续输出可量化的效能进化。以"标准化×自动化×数据化"为方法论，让技术价值精准传导至商业结果。化繁为简，时间赋能。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>更新于2025年7月 | 杨子杰 - 个人简历</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            const resumeElement = document.getElementById('resume');
+            
+            // 配置PDF选项
+            const options = {
+                margin: 10,
+                filename: '杨子杰-个人简历.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait',
+                    hotfixes: ["px_scaling"] 
+                },
+                pagebreak: { mode: ['avoid-all', 'css'] }
+            };
+            
+            // 生成PDF
+            html2pdf().set(options).from(resumeElement).save();
+        });
+    </script>
+</body>
+</html>
